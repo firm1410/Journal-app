@@ -3,9 +3,32 @@
     "name": "Journal-app",
     "slug": "Journal-app",
     "version": "1.0.0",
+    "scheme": "journal-app",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "plugins": [
+      "expo-router",
+      [
+        "expo-localization",
+        {
+          "supportedLocales": {
+            "ios": [
+              "en",
+              "th"
+            ],
+            "android": [
+              "en",
+              "th"
+            ]
+          }
+        }
+      ],
+      "expo-audio"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
     "ios": {
       "supportsTablet": true
     },
