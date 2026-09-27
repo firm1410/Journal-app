@@ -1,9 +1,9 @@
 import { Link } from "expo-router"
 import { Pressable, StyleSheet, Text, View } from "react-native"
 
-import { colors } from "../constants/theme"
-import { type SupportedLocale } from "../i18n"
-import { useTranslation } from "./hooks/useTraslation"
+import { colors } from "../../constants/theme"
+import { type SupportedLocale } from "../../i18n"
+import { useTranslation } from "../hooks/useTraslation"
 
 const JournalHomeScreen = () => {
   const { t, locale, changeLanguage } = useTranslation()
@@ -34,15 +34,20 @@ const JournalHomeScreen = () => {
 
         <Text style={styles.title}>{t("title")}</Text>
 
-        <Link href="/journal?compose=write" asChild><Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t("startWriting")}
-          style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
-        >
-          <Text style={styles.cardEyebrow}>{t("today")}</Text>
-          <Text style={styles.cardTitle}>{t("prompt")}</Text>
-          <Text style={styles.cardDescription}>{t("description")}</Text>
-        </Pressable></Link>
+        <Link href="/journal?compose=write" asChild>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t("startWriting")}
+            style={({ pressed }) => [
+              styles.card,
+              pressed && styles.cardPressed,
+            ]}
+          >
+            <Text style={styles.cardEyebrow}>{t("today")}</Text>
+            <Text style={styles.cardTitle}>{t("prompt")}</Text>
+            <Text style={styles.cardDescription}>{t("description")}</Text>
+          </Pressable>
+        </Link>
       </View>
     </View>
   )

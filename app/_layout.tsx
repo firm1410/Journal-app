@@ -1,23 +1,36 @@
 import { Stack } from "expo-router"
-import { StatusBar } from "expo-status-bar"
-import { View } from "react-native"
+import { ActivityIndicator, View } from "react-native"
 
-import { colors } from "../constants/theme"
-import Nav from "./components/Nav/Nav"
+import { SessionProvider, useSession } from "./providers/SessionProvider"
 
-const RootLayout = () => {
+function RootNavigator() {
+  const { session, loading } = useSession()
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <ActivityIndicator />
+      </View>
+    )
+  }
+
   return (
-    <View style={{ flex: 1 }}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: colors.background },
-        }}
-      />
-      <StatusBar style="dark" />
-      <Nav />
-    </View>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Protected guard={!session}>
+        <Stack.Screen name="SignIn" />
+      </Stack.Protected>
+
+      <Stack.Protected guard={Boolean(session)}>
+        <Stack.Screen name="(tabs)" />
+      </Stack.Protected>
+    </Stack>
   )
 }
 
-export default RootLayout
+export default function RootLayout() {
+  return (
+    <SessionProvider>
+      <RootNavigator />
+    </SessionProvider>
+  )
+}

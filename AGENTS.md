@@ -1,1 +1,1 @@
-write fuction using arrow fuction , using useMemo/useCallack if possible , Use interfaces over types
+write all the function in arrow function;every file always have default export

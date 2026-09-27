@@ -1,35 +1,38 @@
+import { colors, shadows } from "@/constants/theme"
 import { Link, usePathname } from "expo-router"
-import { Pressable, StyleSheet } from "react-native"
-import { cloneElement, isValidElement } from "react"
-import { colors } from "@/constants/theme"
+import { Pressable, StyleSheet, View } from "react-native"
 import { NavItemInterface } from "../models/NavInterface"
 
-interface NavItemProps extends NavItemInterface {}
+type NavItemProps = NavItemInterface
 
 const NavItem = ({ name, route, Icon }: NavItemProps) => {
   const pathname = usePathname()
   const routePath = typeof route === "string" ? route : route.pathname
   const currentPath = pathname === "" ? "/" : pathname
+
   const isActive = currentPath === routePath
-  const icon = isValidElement<{ color?: string }>(Icon)
-    ? cloneElement(Icon, {
-        color: isActive ? colors.navActiveIcon : colors.text,
-      })
-    : Icon
 
   return (
-    <Link key={name} href={route} asChild>
+    <Link href={route} asChild>
       <Pressable
         accessibilityRole="link"
         accessibilityLabel={name}
         accessibilityState={{ selected: isActive }}
-        style={({ pressed }) => [
-          styles.item,
-          isActive && styles.itemActive,
-          pressed && styles.pressed,
-        ]}
       >
-        {icon}
+        {({ pressed }) => (
+          <View
+            style={[
+              styles.item,
+              isActive && styles.itemActive,
+              pressed && styles.itemActive,
+            ]}
+          >
+            <Icon
+              color={isActive ? colors.navActiveIcon : colors.text}
+              pointerEvents="none"
+            />
+          </View>
+        )}
       </Pressable>
     </Link>
   )
@@ -37,27 +40,15 @@ const NavItem = ({ name, route, Icon }: NavItemProps) => {
 
 const styles = StyleSheet.create({
   item: {
-    alignItems: "center",
-    borderRadius: 18,
-    height: 48,
-    justifyContent: "center",
+    borderRadius: "100%",
     width: 48,
+    height: 48,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   itemActive: {
-    backgroundColor: colors.navActive,
-    shadowColor: colors.shadowAccent,
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.38,
-    shadowRadius: 4,
-    elevation: 4,
-  },
-  pressed: {
-    backgroundColor: colors.navBackground,
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 0.42,
-    shadowRadius: 5,
-    elevation: 3,
+    boxShadow: shadows.navItemActive,
     transform: [{ translateY: 1 }],
   },
 })

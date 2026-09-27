@@ -1,7 +1,6 @@
 import { colors } from "@/constants/theme"
-import Svg, { Path, type SvgProps } from "react-native-svg"
-
-type IconProps = SvgProps & { size?: number }
+import Svg, { Path } from "react-native-svg"
+import { IconProps } from "../models/IconInterface"
 
 const JournalIcon = ({
   size = 24,

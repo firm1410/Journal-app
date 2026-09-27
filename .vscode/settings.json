@@ -12,7 +12,7 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.detectIndentation": false,
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.quickSuggestions": { "strings": true },
   "editor.tabSize": 2,
   "eslint.enable": true,

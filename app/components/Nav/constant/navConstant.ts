@@ -8,21 +8,21 @@ export const nav: NavItemInterface[] = [
   {
     name: "Home",
     route: "/",
-    Icon: HomeIcon({ size: 24 }),
+    Icon: HomeIcon,
   },
   {
     name: "Journal",
     route: "/journal",
-    Icon: JournalIcon({ size: 24 }),
+    Icon: JournalIcon,
   },
   {
     name: "To do",
     route: "/todo",
-    Icon: TodoIcon({ size: 24 }),
+    Icon: TodoIcon,
   },
   {
     name: "Tracker",
     route: "/tracker",
-    Icon: TrackerIcon({ size: 24 }),
+    Icon: TrackerIcon,
   },
 ]
