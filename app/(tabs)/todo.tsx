@@ -1,13 +1,5 @@
-import { Text, View } from "react-native"
+import TodoScreen from "@/src/features/todo/screens/TodoScreen"
 
-type Props = {}
+const TodoRoute = () => <TodoScreen />
 
-const todo = (props: Props) => {
-  return (
-    <View>
-      <Text>todo</Text>
-    </View>
-  )
-}
-
-export default todo
+export default TodoRoute

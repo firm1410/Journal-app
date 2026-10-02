@@ -1,15 +1,5 @@
-import { Stack } from "expo-router"
-import { StatusBar } from "expo-status-bar"
-import Nav from "../components/Nav/Nav"
+import TabsLayout from "@/src/shared/navigation/TabsLayout"
 
-const RootLayout = () => {
-  return (
-    <>
-      <Stack />
-      <StatusBar style="dark" />
-      <Nav />
-    </>
-  )
-}
+const TabsRouteLayout = () => <TabsLayout />
 
-export default RootLayout
+export default TabsRouteLayout

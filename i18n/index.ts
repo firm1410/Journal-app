@@ -53,3 +53,5 @@ export const getDeviceLocale = (): SupportedLocale => {
 }
 
 i18n.locale = getDeviceLocale()
+
+export default i18n

@@ -1,13 +1,5 @@
-import { Text, View } from "react-native"
+import TrackerScreen from "@/src/features/tracker/screens/TrackerScreen"
 
-type Props = {}
+const TrackerRoute = () => <TrackerScreen />
 
-const tracker = (props: Props) => {
-  return (
-    <View>
-      <Text>tracker</Text>
-    </View>
-  )
-}
-
-export default tracker
+export default TrackerRoute

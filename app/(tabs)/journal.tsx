@@ -1,13 +1,5 @@
-import { Text, View } from "react-native"
+import JournalScreen from "@/src/features/journal/screens/JournalScreen"
 
-type Props = {}
+const JournalRoute = () => <JournalScreen />
 
-const journal = (props: Props) => {
-  return (
-    <View>
-      <Text>journal</Text>
-    </View>
-  )
-}
-
-export default journal
+export default JournalRoute
