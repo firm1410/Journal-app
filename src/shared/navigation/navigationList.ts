@@ -3,9 +3,9 @@ import JournalIcon from "@/src/shared/components/icons/JournalIcon"
 import TodoIcon from "@/src/shared/components/icons/TodoIcon"
 import TrackerIcon from "@/src/shared/components/icons/TrackerIcon"
 
-import type NavigationItemModel from "./models/NavigationItemModel"
+import type NavigationItemModel from "./components/NavigationItem/models/NavigationItemModel"
 
-const navigationItems: NavigationItemModel[] = [
+const navigationList: NavigationItemModel[] = [
   {
     name: "Home",
     route: "/",
@@ -28,4 +28,4 @@ const navigationItems: NavigationItemModel[] = [
   },
 ]
 
-export default navigationItems
+export default navigationList

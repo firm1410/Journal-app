@@ -2,8 +2,8 @@ import { colors, shadows } from "@/constants/theme"
 import { Link } from "expo-router"
 import { Pressable, StyleSheet, View } from "react-native"
 
-import useNavigationItemController from "../controllers/useNavigationItemController"
-import type NavigationItemModel from "../models/NavigationItemModel"
+import useNavigationItemController from "./controller/useNavigationItemController"
+import type NavigationItemModel from "./models/NavigationItemModel"
 
 const NavigationItem = ({ name, route, Icon }: NavigationItemModel) => {
   const { isActive } = useNavigationItemController(route)

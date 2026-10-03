@@ -1,14 +1,12 @@
 import { StyleSheet, View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import RecordButton from "@/src/features/recording/components/RecordButton"
-import useRecordingController from "@/src/features/recording/controllers/useRecordingController"
-import NavigationItem from "./NavigationItem"
-import navigationItems from "../navigationItems"
+import NavigationItem from "./components/NavigationItem/NavigationItem"
+import RecordingControl from "./components/RecordingControl/RecordingControl"
+import navigationItems from "./navigationList"
 
-const BottomNavigation = () => {
+const Navigation = () => {
   const { bottom } = useSafeAreaInsets()
-  const recording = useRecordingController()
 
   return (
     <View style={[styles.wrapper, { bottom: bottom + 12 }]}>
@@ -16,7 +14,7 @@ const BottomNavigation = () => {
         <NavigationItem {...item} key={item.name} />
       ))}
       <View style={styles.recordingSpace} />
-      <RecordButton {...recording} />
+      <RecordingControl />
       {navigationItems.slice(2).map((item) => (
         <NavigationItem {...item} key={item.name} />
       ))}
@@ -46,4 +44,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default BottomNavigation
+export default Navigation

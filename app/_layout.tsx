@@ -1,9 +1,9 @@
-import RootNavigator from "@/src/shared/navigation/RootNavigator"
 import SessionProvider from "@/src/shared/session/SessionProvider"
+import SessionWrapper from "@/src/shared/session/SessionWrapper"
 
 const RootLayout = () => (
   <SessionProvider>
-    <RootNavigator />
+    <SessionWrapper />
   </SessionProvider>
 )
 

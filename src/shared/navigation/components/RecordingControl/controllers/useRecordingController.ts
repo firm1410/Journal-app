@@ -13,7 +13,7 @@ const SAMPLE_RATE = 16_000
 const useRecordingController = () => {
   const socketRef = useRef<WebSocket | null>(null)
   const [isRecording, setIsRecording] = useState(false)
-
+  const [transcribe, setTranscribe] = useState("")
   const { stream } = useAudioStream({
     sampleRate: SAMPLE_RATE,
     channels: 1,
@@ -31,22 +31,28 @@ const useRecordingController = () => {
     if (message.type === "error") {
       Alert.alert("Connection failed", message.message ?? message.code)
     }
+    console.log(message.message)
   }
 
-  const handleReady = () => setIsRecording(true)
-
+  const handleReady = () => {
+    console.log("ready")
+    setIsRecording(true)
+  }
   const handleClose = () => {
+    console.log("close")
     socketRef.current = null
     setIsRecording(false)
   }
 
   const disconnect = useCallback(() => {
+    console.log("disconnect")
     setIsRecording(false)
     socketRef.current?.close()
     socketRef.current = null
   }, [])
 
   const connect = useCallback(async () => {
+    console.log("connect")
     const permission = await requestRecordingPermissionsAsync()
 
     if (!permission.granted) {
@@ -80,6 +86,7 @@ const useRecordingController = () => {
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Unable to start recording."
+      console.log(message)
 
       setIsRecording(false)
       Alert.alert("Connection failed", message)
@@ -91,13 +98,13 @@ const useRecordingController = () => {
       disconnect()
       return
     }
-
     await connect()
   }, [connect, disconnect, isRecording])
 
   return {
     isRecording,
     toggleRecording,
+    transcribe,
   }
 }
 
