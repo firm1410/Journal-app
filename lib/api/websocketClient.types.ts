@@ -23,6 +23,8 @@ export type ServerMessage = {
   code?: string
   message?: string
   type?: string
+  delta?: string
+  transcript?: string
 }
 
 export type { WebSocketClientOptions as default }

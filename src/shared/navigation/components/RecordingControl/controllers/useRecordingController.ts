@@ -8,7 +8,7 @@ import {
 import { useCallback, useRef, useState } from "react"
 import { Alert } from "react-native"
 
-const SAMPLE_RATE = 16_000
+const SAMPLE_RATE = 24_000
 
 const useRecordingController = () => {
   const socketRef = useRef<WebSocket | null>(null)
@@ -28,29 +28,42 @@ const useRecordingController = () => {
   })
 
   const handleMessage = (message: ServerMessage) => {
+    if (message.type === "transcript.delta" && message.delta) {
+      setTranscribe((current) => current + message.delta)
+      return
+    }
+    if (message.type === "transcript.finish" && message.transcript) {
+      setTranscribe(message.transcript)
+      return
+    }
+
     if (message.type === "error") {
       Alert.alert("Connection failed", message.message ?? message.code)
     }
-    console.log(message.message)
   }
 
   const handleReady = () => {
     console.log("ready")
     setIsRecording(true)
   }
-  const handleClose = () => {
-    console.log("close")
-    socketRef.current = null
-    setIsRecording(false)
-  }
-
   const disconnect = useCallback(() => {
     console.log("disconnect")
     setIsRecording(false)
+    stream.stop()
+
+    const socket = socketRef.current
+    socket?.send(
+      JSON.stringify({
+        type: "stop",
+      }),
+    )
     socketRef.current?.close()
     socketRef.current = null
-  }, [])
+  }, [stream])
 
+  const handleClose = () => {
+    setTranscribe("")
+  }
   const connect = useCallback(async () => {
     console.log("connect")
     const permission = await requestRecordingPermissionsAsync()

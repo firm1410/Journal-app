@@ -1,3 +1,4 @@
+import type { Animated as AnimatedType } from "react-native"
 import {
   Animated,
   Modal,
@@ -6,7 +7,6 @@ import {
   Text,
   View,
 } from "react-native"
-import type { Animated as AnimatedType } from "react-native"
 
 import { colors } from "@/constants/theme"
 import StopIcon from "@/src/shared/components/icons/StopIcon"
@@ -106,8 +106,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   transcription: {
-    color: colors.background,
-    fontSize: 20,
+    color: colors.text,
+    fontSize: 48,
     paddingHorizontal: 32,
     textAlign: "center",
   },

@@ -68,7 +68,9 @@ const websocketClient = async (
       }
 
       settled = true
-      cleanup()
+      clearTimeout(timeout)
+      signal?.removeEventListener("abort", handleAbort)
+      socket.removeEventListener("open", handleOpen)
       resolve(socket)
     }
 
