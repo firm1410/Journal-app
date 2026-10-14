@@ -1,24 +1,32 @@
-import type { RefObject } from "react"
-import { Pressable, StyleSheet } from "react-native"
+import { useMemo, type RefObject } from "react"
 import type { View } from "react-native"
+import { Pressable, StyleSheet } from "react-native"
 
 import { colors, shadows } from "@/constants/theme"
 import MicrophoneIcon from "@/src/shared/components/icons/MicrophoneIcon"
 import StopIcon from "@/src/shared/components/icons/StopIcon"
+import { RecordingState } from "../../models/RecordingInterface"
 
 type RecordButtonProps = {
   buttonRef: RefObject<View | null>
   handleLayout: () => void
-  isRecording: boolean
+  recordingState: RecordingState
   toggleRecording: () => Promise<void>
 }
 
 const RecordButton = ({
   buttonRef,
   handleLayout,
-  isRecording,
+  recordingState,
   toggleRecording,
 }: RecordButtonProps) => {
+  const isRecording = useMemo(
+    () =>
+      [RecordingState.TRANSCRIBING, RecordingState.EDITING].includes(
+        recordingState,
+      ),
+    [recordingState],
+  )
   return (
     <Pressable
       accessibilityRole="button"

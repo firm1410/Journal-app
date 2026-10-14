@@ -1,4 +1,3 @@
-import connectToTranscription from "@/api/go/transcribe/transcribe"
 import type { ServerMessage } from "@/lib/api/websocketClient.types"
 import {
   requestRecordingPermissionsAsync,
@@ -7,12 +6,15 @@ import {
 } from "expo-audio"
 import { useCallback, useRef, useState } from "react"
 import { Alert } from "react-native"
+import { RecordingState } from "../models/RecordingInterface"
 
 const SAMPLE_RATE = 24_000
 
 const useRecordingController = () => {
   const socketRef = useRef<WebSocket | null>(null)
-  const [isRecording, setIsRecording] = useState(false)
+  const [recordingState, setRecordingState] = useState<RecordingState>(
+    RecordingState.IDLE,
+  )
   const [transcribe, setTranscribe] = useState("")
   const { stream } = useAudioStream({
     sampleRate: SAMPLE_RATE,
@@ -32,8 +34,9 @@ const useRecordingController = () => {
       setTranscribe((current) => current + message.delta)
       return
     }
-    if (message.type === "transcript.finish" && message.transcript) {
+    if (message.type === "transcript.completed" && message.transcript) {
       setTranscribe(message.transcript)
+      setRecordingState(RecordingState.EDITING)
       return
     }
 
@@ -44,13 +47,12 @@ const useRecordingController = () => {
 
   const handleReady = () => {
     console.log("ready")
-    setIsRecording(true)
+    setRecordingState(RecordingState.TRANSCRIBING)
   }
   const disconnect = useCallback(() => {
+    setRecordingState(RecordingState.DONE_TRANSCRIBING)
     console.log("disconnect")
-    setIsRecording(false)
     stream.stop()
-
     const socket = socketRef.current
     socket?.send(
       JSON.stringify({
@@ -66,6 +68,10 @@ const useRecordingController = () => {
   }
   const connect = useCallback(async () => {
     console.log("connect")
+    if (recordingState !== RecordingState.IDLE) {
+      disconnect()
+      return
+    }
     const permission = await requestRecordingPermissionsAsync()
 
     if (!permission.granted) {
@@ -79,43 +85,47 @@ const useRecordingController = () => {
     })
 
     try {
-      const socket = await connectToTranscription({
-        onMessage: handleMessage,
-        onReady: handleReady,
-        onClose: handleClose,
-      })
+      setRecordingState(RecordingState.TRANSCRIBING)
+      setTranscribe("test transcribe")
+      // const socket = await connectToTranscription({
+      //   onMessage: handleMessage,
+      //   onReady: handleReady,
+      //   onClose: handleClose,
+      // })
 
-      socketRef.current = socket
-      socket.send(
-        JSON.stringify({
-          type: "start",
-          encoding: "pcm_s16le",
-          sampleRate: SAMPLE_RATE,
-          channels: 1,
-        }),
-      )
+      // socketRef.current = socket
+      // socket.send(
+      //   JSON.stringify({
+      //     type: "start",
+      //     encoding: "pcm_s16le",
+      //     sampleRate: SAMPLE_RATE,
+      //     channels: 1,
+      //   }),
+      // )
 
-      await stream.start()
+      // await stream.start()
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Unable to start recording."
       console.log(message)
 
-      setIsRecording(false)
+      setRecordingState(RecordingState.IDLE)
+
       Alert.alert("Connection failed", message)
     }
-  }, [stream])
+  }, [stream, disconnect, recordingState])
 
   const toggleRecording = useCallback(async () => {
-    if (isRecording) {
+    if (recordingState === RecordingState.TRANSCRIBING) {
       disconnect()
       return
     }
     await connect()
-  }, [connect, disconnect, isRecording])
+  }, [connect, disconnect, recordingState])
 
   return {
-    isRecording,
+    recordingState,
+    setRecordingState,
     toggleRecording,
     transcribe,
   }

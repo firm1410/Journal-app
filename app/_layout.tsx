@@ -1,5 +1,5 @@
-import SessionProvider from "@/src/shared/session/SessionProvider"
-import SessionWrapper from "@/src/shared/session/SessionWrapper"
+import SessionProvider from "@/src/shared/components/session/SessionProvider"
+import SessionWrapper from "@/src/shared/components/session/SessionWrapper"
 
 const RootLayout = () => (
   <SessionProvider>

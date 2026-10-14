@@ -1,4 +1,4 @@
-import BottomNavigation from "@/src/shared/navigation/Navigation"
+import BottomNavigation from "@/src/shared/components/navigation/Navigation"
 import { Stack } from "expo-router"
 import { StatusBar } from "expo-status-bar"
 

@@ -19,7 +19,7 @@ export const colors = {
   shadowNavItemDark: "rgba(154, 52, 18, 0.5)",
   shadowNavItemLight: "rgba(255, 237, 213, 0.65)",
   navBackground: "#f2fdfc",
-  navActive: "#ffffff",
+  white: "#ffffff",
   navActiveIcon: "#f97316",
   warning: "#facc15",
   error: "#dc2626",
@@ -33,18 +33,35 @@ export const shadows = {
   navItemActive: `5px 5px 9px ${colors.shadowNavItemDark}, -3px -3px 7px ${colors.shadowNavItemLight}`,
   nav: "0px -8px 22px rgba(15, 23, 42, 0.12)",
   record: {
-    shadowColor: colors.shadowAccent,
-    shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 0.42,
-    shadowRadius: 7,
+    boxShadowColor: colors.shadowAccent,
+    boxShadowOffset: { width: 4, height: 4 },
+    boxShadowOpacity: 0.42,
+    boxShadowRadius: 7,
     elevation: 7,
   },
   recordPressed: {
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    boxShadowOffset: { width: 2, height: 2 },
+    boxShadowOpacity: 0.25,
+    boxShadowRadius: 4,
     elevation: 3,
   },
+  stop: {
+    boxShadowColor: colors.error,
+    boxShadowOffset: { width: 4, height: 4 },
+    boxShadowOpacity: 0.42,
+    boxShadowRadius: 7,
+    elevation: 7,
+  },
+  stopPressed: {
+    boxShadowOffset: { width: 2, height: 2 },
+    boxShadowOpacity: 0.25,
+    boxShadowRadius: 4,
+    elevation: 3,
+  },
+} as const
+
+export const typography = {
+  title: {},
 } as const
 
 export default colors

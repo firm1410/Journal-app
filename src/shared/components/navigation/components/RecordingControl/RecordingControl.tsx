@@ -2,11 +2,16 @@ import RecordButton from "./components/RecordButton/RecordButton"
 import RecordingModal from "./components/RecordingModal/RecordingModal"
 import useRecordingAnimationController from "./controllers/useRecordingAnimationController"
 import useRecordingController from "./controllers/useRecordingController"
+import { RecordingState } from "./models/RecordingInterface"
 
 const RecordingControl = () => {
   const recordingController = useRecordingController()
   const animationController = useRecordingAnimationController({
-    isOpen: recordingController.isRecording,
+    isOpen: [
+      RecordingState.TRANSCRIBING,
+      RecordingState.DONE_TRANSCRIBING,
+      RecordingState.EDITING,
+    ].includes(recordingController.recordingState),
     toggleRecording: recordingController.toggleRecording,
   })
 
@@ -15,7 +20,7 @@ const RecordingControl = () => {
       <RecordButton
         buttonRef={animationController.buttonRef}
         handleLayout={animationController.handleButtonLayout}
-        isRecording={recordingController.isRecording}
+        recordingState={recordingController.recordingState}
         toggleRecording={recordingController.toggleRecording}
       />
 
@@ -28,6 +33,8 @@ const RecordingControl = () => {
         isClosing={animationController.isClosing}
         isVisible={animationController.isVisible}
         progress={animationController.progress}
+        recordingState={recordingController.recordingState}
+        setRecordingState={recordingController.setRecordingState}
         transcribe={recordingController.transcribe}
       />
     </>
