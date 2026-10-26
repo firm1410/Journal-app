@@ -1,3 +1,8 @@
+import { ImageStyle, TextStyle, ViewStyle } from "react-native"
+type ThemeType = Record<
+  string,
+  (string & {}) | ViewStyle | TextStyle | ImageStyle
+>
 export const colors = {
   background: "#fff7ed",
   surface: "#ffedd5",
@@ -33,35 +38,36 @@ export const shadows = {
   navItemActive: `5px 5px 9px ${colors.shadowNavItemDark}, -3px -3px 7px ${colors.shadowNavItemLight}`,
   nav: "0px -8px 22px rgba(15, 23, 42, 0.12)",
   record: {
-    boxShadowColor: colors.shadowAccent,
-    boxShadowOffset: { width: 4, height: 4 },
-    boxShadowOpacity: 0.42,
-    boxShadowRadius: 7,
+    shadowColor: colors.shadowAccent,
+    shadowOffset: { width: 4, height: 4 },
+    shadowOpacity: 0.42,
+    shadowRadius: 7,
     elevation: 7,
   },
   recordPressed: {
-    boxShadowOffset: { width: 2, height: 2 },
-    boxShadowOpacity: 0.25,
-    boxShadowRadius: 4,
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
     elevation: 3,
   },
   stop: {
-    boxShadowColor: colors.error,
-    boxShadowOffset: { width: 4, height: 4 },
-    boxShadowOpacity: 0.42,
-    boxShadowRadius: 7,
+    shadowColor: colors.error,
+    shadowOffset: { width: 4, height: 4 },
+    shadowOpacity: 0.42,
+    shadowRadius: 7,
     elevation: 7,
   },
   stopPressed: {
-    boxShadowOffset: { width: 2, height: 2 },
-    boxShadowOpacity: 0.25,
-    boxShadowRadius: 4,
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
     elevation: 3,
   },
-} as const
+} as const satisfies ThemeType
 
 export const typography = {
-  title: {},
-} as const
+  title: { fontSize: 32, fontWeight: "400", lineHeight: 40 },
+  subtitle: { fontSize: 20, fontWeight: "400", lineHeight: 28 },
+} as const satisfies ThemeType
 
 export default colors

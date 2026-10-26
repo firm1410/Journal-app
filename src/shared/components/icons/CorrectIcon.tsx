@@ -3,7 +3,7 @@ import Svg, { Path } from "react-native-svg"
 
 import type IconProps from "./IconProps"
 
-const StopIcon = ({ size = 24, color = colors.text, ...props }: IconProps) => (
+const CorrectIcon = ({ size = 24, color = colors.text, ...props }: IconProps) => (
   <Svg
     {...props}
     width={size}
@@ -20,4 +20,4 @@ const StopIcon = ({ size = 24, color = colors.text, ...props }: IconProps) => (
   </Svg>
 )
 
-export default StopIcon
+export default CorrectIcon

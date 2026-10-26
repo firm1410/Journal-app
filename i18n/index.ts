@@ -20,6 +20,7 @@ export const translations = {
     aboutDescription: "A quiet space for keeping your thoughts close.",
     back: "Back",
     liveTranscription: "Live Transcription",
+    editTranscription: "Edit Transcription",
   },
   th: {
     journal: "บันทึกประจำวัน",
@@ -37,6 +38,7 @@ export const translations = {
     aboutDescription: "พื้นที่เงียบ ๆ สำหรับเก็บความคิดของคุณไว้ใกล้ตัว",
     back: "ย้อนกลับ",
     liveTranscription: "การถอดเสียงสด",
+    editTranscription: "แก้ไขการถอดเสียง",
   },
 }
 

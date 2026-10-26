@@ -7,12 +7,8 @@ import { RecordingState } from "./models/RecordingInterface"
 const RecordingControl = () => {
   const recordingController = useRecordingController()
   const animationController = useRecordingAnimationController({
-    isOpen: [
-      RecordingState.TRANSCRIBING,
-      RecordingState.DONE_TRANSCRIBING,
-      RecordingState.EDITING,
-    ].includes(recordingController.recordingState),
-    toggleRecording: recordingController.toggleRecording,
+    isOpen: recordingController.recordingState !== RecordingState.IDLE,
+    cancelRecording: recordingController.cancelRecording,
   })
 
   return (

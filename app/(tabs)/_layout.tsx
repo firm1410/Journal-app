@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar"
 
 const TabsRouteLayout = () => (
   <>
-    <Stack />
+    <Stack screenOptions={{ headerShown: false }} />
     <StatusBar style="dark" />
     <BottomNavigation />
   </>

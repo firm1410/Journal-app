@@ -6,12 +6,12 @@ const ANIMATION_DURATION = 550
 
 type UseRecordingAnimationControllerProps = {
   isOpen: boolean
-  toggleRecording: () => Promise<void>
+  cancelRecording: () => void
 }
 
 const useRecordingAnimationController = ({
   isOpen,
-  toggleRecording,
+  cancelRecording,
 }: UseRecordingAnimationControllerProps) => {
   const { height, width } = useWindowDimensions()
   const buttonRef = useRef<View>(null)
@@ -82,8 +82,8 @@ const useRecordingAnimationController = ({
       }
     })
 
-    void toggleRecording()
-  }, [isClosing, progress, toggleRecording])
+    cancelRecording()
+  }, [cancelRecording, isClosing, progress])
 
   return {
     buttonRef,

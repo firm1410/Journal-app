@@ -1,11 +1,11 @@
 import { colors } from "@/constants/theme"
 import StopIcon from "@/src/shared/components/icons/StopIcon"
-import useTranslation from "@/src/shared/i18n/useTranslation"
 import { Dispatch, SetStateAction } from "react"
 import type { Animated as AnimatedType } from "react-native"
-import { Animated, Pressable, StyleSheet, Text } from "react-native"
+import { Animated, Pressable, StyleSheet } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { RecordingState } from "../../../models/RecordingInterface"
+import TranscriptionField from "./TranscriptionField"
 
 type Props = {
   center: { x: number; y: number }
@@ -23,15 +23,13 @@ const TranscribeStep = ({
   setRecordingState,
 }: Props) => {
   const { top } = useSafeAreaInsets()
-  const { t } = useTranslation()
 
   return (
     <>
       <Animated.View
         style={[styles.content, { opacity: progress, paddingTop: top + 16 }]}
       >
-        <Text style={styles.transcription}>{t("liveTranscription")}</Text>
-        <Text style={styles.transcription}>{transcribe}</Text>
+        <TranscriptionField value={transcribe} />
       </Animated.View>
       <Pressable
         accessibilityLabel="Stop recording"
@@ -59,14 +57,9 @@ export default TranscribeStep
 
 const styles = StyleSheet.create({
   content: {
-    alignItems: "center",
     flex: 1,
-  },
-  transcription: {
-    color: colors.text,
-    fontSize: 48,
-    paddingHorizontal: 32,
-    textAlign: "center",
+    gap: 24,
+    paddingHorizontal: 24,
   },
   stopButton: {
     alignItems: "center",

@@ -12,6 +12,7 @@ const SAMPLE_RATE = 24_000
 
 const useRecordingController = () => {
   const socketRef = useRef<WebSocket | null>(null)
+  const connectionRef = useRef<AbortController | null>(null)
   const [recordingState, setRecordingState] = useState<RecordingState>(
     RecordingState.IDLE,
   )
@@ -30,6 +31,9 @@ const useRecordingController = () => {
   })
 
   const handleMessage = (message: ServerMessage) => {
+    if (!connectionRef.current || connectionRef.current.signal.aborted) {
+      return
+    }
     if (message.type === "transcript.delta" && message.delta) {
       setTranscribe((current) => current + message.delta)
       return
@@ -46,6 +50,9 @@ const useRecordingController = () => {
   }
 
   const handleReady = () => {
+    if (!connectionRef.current || connectionRef.current.signal.aborted) {
+      return
+    }
     console.log("ready")
     setRecordingState(RecordingState.TRANSCRIBING)
   }
@@ -63,6 +70,25 @@ const useRecordingController = () => {
     socketRef.current = null
   }, [stream])
 
+  const cancelRecording = useCallback(() => {
+    connectionRef.current?.abort()
+    const socket = socketRef.current
+    socketRef.current = null
+
+    try {
+      stream.stop()
+    } finally {
+      try {
+        if (socket && socket.readyState < WebSocket.CLOSING) {
+          socket.close()
+        }
+      } finally {
+        setTranscribe("")
+        setRecordingState(RecordingState.IDLE)
+      }
+    }
+  }, [stream])
+
   const handleClose = () => {
     setTranscribe("")
   }
@@ -72,7 +98,13 @@ const useRecordingController = () => {
       disconnect()
       return
     }
+    const connection = new AbortController()
+    connectionRef.current = connection
     const permission = await requestRecordingPermissionsAsync()
+
+    if (connection.signal.aborted) {
+      return
+    }
 
     if (!permission.granted) {
       Alert.alert("Permission required", "Microphone access is required.")
@@ -84,10 +116,15 @@ const useRecordingController = () => {
       playsInSilentMode: true,
     })
 
+    if (connection.signal.aborted) {
+      return
+    }
+
     try {
       setRecordingState(RecordingState.TRANSCRIBING)
       setTranscribe("test transcribe")
       // const socket = await connectToTranscription({
+      //   signal: connection.signal,
       //   onMessage: handleMessage,
       //   onReady: handleReady,
       //   onClose: handleClose,
@@ -105,6 +142,9 @@ const useRecordingController = () => {
 
       // await stream.start()
     } catch (error) {
+      if (connection.signal.aborted) {
+        return
+      }
       const message =
         error instanceof Error ? error.message : "Unable to start recording."
       console.log(message)
@@ -113,7 +153,7 @@ const useRecordingController = () => {
 
       Alert.alert("Connection failed", message)
     }
-  }, [stream, disconnect, recordingState])
+  }, [disconnect, recordingState])
 
   const toggleRecording = useCallback(async () => {
     if (recordingState === RecordingState.TRANSCRIBING) {
@@ -124,6 +164,7 @@ const useRecordingController = () => {
   }, [connect, disconnect, recordingState])
 
   return {
+    cancelRecording,
     recordingState,
     setRecordingState,
     toggleRecording,

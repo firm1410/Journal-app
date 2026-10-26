@@ -2,10 +2,11 @@ import { useState } from "react"
 
 interface UseEditStepProps {
   transcribe: string
+  initialDateTime: Date
 }
-const useEditStep = ({ transcribe }: UseEditStepProps) => {
+const useEditStep = ({ transcribe, initialDateTime }: UseEditStepProps) => {
   const [editText, setEditText] = useState(transcribe)
-  const [dateTime, setDateTime] = useState(new Date())
+  const [dateTime, setDateTime] = useState(initialDateTime)
 
   return {
     editText,
