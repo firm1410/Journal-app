@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction } from "react"
 import type { Animated as AnimatedType } from "react-native"
 import { Animated, Modal, Pressable, StyleSheet, View } from "react-native"
 
@@ -23,6 +23,9 @@ type Props = {
   isClosing: boolean
   progress: AnimatedType.Value
   transcribe: string
+  setTranscribe: Dispatch<SetStateAction<string>>
+  date: Date
+  setDate: Dispatch<SetStateAction<Date>>
 }
 
 const RecordingModal = ({
@@ -35,18 +38,13 @@ const RecordingModal = ({
   isClosing,
   progress,
   transcribe,
+  setTranscribe,
+  date,
+  setDate,
   recordingState,
   setRecordingState,
 }: Props) => {
   const { top } = useSafeAreaInsets()
-  const [draft, setDraft] = useState(() => ({ transcribe, isVisible, text: transcribe, dateTime: new Date() }))
-
-  if (draft.transcribe !== transcribe || draft.isVisible !== isVisible) {
-    setDraft({ transcribe, isVisible, text: transcribe, dateTime: new Date() })
-  }
-
-  const draftText = draft.text
-
   if (!isVisible) {
     return null
   }
@@ -93,35 +91,36 @@ const RecordingModal = ({
                 onStepChange={setRecordingState}
               />
             </View>
-            {recordingState === RecordingState.EDITING ? (
-              <EditingStep
-                transcribe={draftText}
-                initialDateTime={draft.dateTime}
-                center={center}
-                buttonSize={buttonSize}
-                onNext={(text, dateTime) => {
-                  setDraft({ transcribe, isVisible, text, dateTime })
-                  setRecordingState(RecordingState.SELECT_CARD)
-                }}
-              />
-            ) : recordingState === RecordingState.SELECT_CARD ||
-              recordingState === RecordingState.COMPLETED ? (
-              <SelectCardStep
-                buttonSize={buttonSize}
-                center={center}
-                setRecordingState={setRecordingState}
-                progress={progress}
-                transcribe={draftText}
-                dateTime={draft.dateTime}
-                isComplete={recordingState === RecordingState.COMPLETED}
-              />
-            ) : (
+            {recordingState === RecordingState.TRANSCRIBING && (
               <TranscribeStep
                 buttonSize={buttonSize}
                 center={center}
                 setRecordingState={setRecordingState}
                 progress={progress}
                 transcribe={transcribe}
+              />
+            )}
+            {recordingState === RecordingState.EDITING && (
+              <EditingStep
+                transcribe={transcribe}
+                date={date}
+                setDate={setDate}
+                setTranscribe={setTranscribe}
+                setRecordingState={setRecordingState}
+                center={center}
+                buttonSize={buttonSize}
+              />
+            )}
+            {(recordingState === RecordingState.SELECT_CARD ||
+              recordingState === RecordingState.COMPLETED) && (
+              <SelectCardStep
+                buttonSize={buttonSize}
+                center={center}
+                setRecordingState={setRecordingState}
+                progress={progress}
+                transcribe={transcribe}
+                date={date}
+                isComplete={recordingState === RecordingState.COMPLETED}
               />
             )}
           </Animated.View>

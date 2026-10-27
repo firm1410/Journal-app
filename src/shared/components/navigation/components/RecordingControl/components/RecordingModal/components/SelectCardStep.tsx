@@ -11,7 +11,6 @@ import {
   Text,
   View,
 } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { RecordingState } from "../../../models/RecordingInterface"
 
 type Props = {
@@ -19,7 +18,7 @@ type Props = {
   buttonSize: number
   progress: AnimatedType.Value
   transcribe: string
-  dateTime: Date
+  date: Date
   isComplete: boolean
   setRecordingState: Dispatch<SetStateAction<RecordingState>>
 }
@@ -29,12 +28,10 @@ const SelectCardStep = ({
   buttonSize,
   progress,
   transcribe,
-  dateTime,
+  date,
   isComplete,
   setRecordingState,
 }: Props) => {
-  const { top } = useSafeAreaInsets()
-
   return (
     <>
       <Animated.View
@@ -42,7 +39,6 @@ const SelectCardStep = ({
           styles.content,
           {
             opacity: progress,
-            paddingTop: top + 16,
             paddingBottom: buttonSize + 40,
           },
         ]}
@@ -50,9 +46,9 @@ const SelectCardStep = ({
         <View style={styles.card}>
           <View style={styles.cardHeader}>
             <Text style={styles.date}>
-              {formatDateTime(dateTime, "ddd, D MMM YYYY")}
+              {formatDateTime(date, "ddd, D MMM YYYY")}
             </Text>
-            <Text style={styles.time}>{formatDateTime(dateTime, "HH:mm")}</Text>
+            <Text style={styles.time}>{formatDateTime(date, "HH:mm")}</Text>
           </View>
           <ScrollView style={styles.transcriptScroll}>
             <Text selectable style={styles.transcript}>
@@ -90,6 +86,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 24,
+    paddingTop: 16,
   },
   card: {
     alignSelf: "center",

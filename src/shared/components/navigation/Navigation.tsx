@@ -3,6 +3,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import NavigationItem from "./components/NavigationItem/NavigationItem"
 import RecordingControl from "./components/RecordingControl/RecordingControl"
+import { colors, shadows } from "@/constants/theme"
 import navigationItems from "./navigationList"
 
 const Navigation = () => {
@@ -27,6 +28,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     borderRadius: 48,
+    backgroundColor: colors.background,
+    boxShadow: shadows.form,
+    maxWidth: 700,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",

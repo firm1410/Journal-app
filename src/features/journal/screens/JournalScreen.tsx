@@ -1,9 +1,1 @@
-import { Text, View } from "react-native"
-
-const JournalScreen = () => (
-  <View>
-    <Text>journal</Text>
-  </View>
-)
-
-export default JournalScreen
+export { JournalPage as default } from "@/src/features/demo/screens"

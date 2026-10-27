@@ -1,12 +1,12 @@
+import { usePreview } from "@/src/features/demo/PreviewContext"
 import { Stack } from "expo-router"
 import { ActivityIndicator, StyleSheet, View } from "react-native"
 import SessionProvider from "./SessionProvider"
 import useSession from "./useSession"
 
-type Props = {}
-
-const SessionWrapper = (props: Props) => {
+const SessionWrapper = () => {
   const { session, loading } = useSession()
+  const preview = usePreview()
 
   if (loading) {
     return (
@@ -21,11 +21,11 @@ const SessionWrapper = (props: Props) => {
   return (
     <SessionProvider>
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Protected guard={!session}>
+        <Stack.Protected guard={!session && !preview.enabled}>
           <Stack.Screen name="SignIn" />
         </Stack.Protected>
 
-        <Stack.Protected guard={Boolean(session)}>
+        <Stack.Protected guard={Boolean(session) || preview.enabled}>
           <Stack.Screen name="(tabs)" />
         </Stack.Protected>
       </Stack>

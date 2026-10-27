@@ -17,6 +17,7 @@ const useRecordingController = () => {
     RecordingState.IDLE,
   )
   const [transcribe, setTranscribe] = useState("")
+  const [date, setDate] = useState(new Date())
   const { stream } = useAudioStream({
     sampleRate: SAMPLE_RATE,
     channels: 1,
@@ -169,6 +170,9 @@ const useRecordingController = () => {
     setRecordingState,
     toggleRecording,
     transcribe,
+    setTranscribe,
+    date,
+    setDate,
   }
 }
 

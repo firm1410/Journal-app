@@ -32,6 +32,9 @@ const RecordingControl = () => {
         recordingState={recordingController.recordingState}
         setRecordingState={recordingController.setRecordingState}
         transcribe={recordingController.transcribe}
+        setTranscribe={recordingController.setTranscribe}
+        date={recordingController.date}
+        setDate={recordingController.setDate}
       />
     </>
   )

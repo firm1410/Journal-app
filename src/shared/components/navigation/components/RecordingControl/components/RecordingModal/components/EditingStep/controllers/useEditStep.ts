@@ -1,18 +1,26 @@
-import { useState } from "react"
+import apiClient from "@/lib/api/apiClient"
+import { Dispatch, SetStateAction, useCallback } from "react"
+import { RecordingState } from "../../../../../models/RecordingInterface"
 
 interface UseEditStepProps {
   transcribe: string
-  initialDateTime: Date
+  date: Date
+  setRecordingState: Dispatch<SetStateAction<RecordingState>>
 }
-const useEditStep = ({ transcribe, initialDateTime }: UseEditStepProps) => {
-  const [editText, setEditText] = useState(transcribe)
-  const [dateTime, setDateTime] = useState(initialDateTime)
+const useEditStep = ({ transcribe, date }: UseEditStepProps) => {
+  const onNext = useCallback(async () => {
+    const response = await apiClient("/cards", {
+      method: "POST",
+      body: JSON.stringify({
+        transcript: transcribe,
+        date: date.toISOString(),
+      }),
+    })
 
+    console.log(response)
+  }, [transcribe, date])
   return {
-    editText,
-    setEditText,
-    dateTime,
-    setDateTime,
+    onNext,
   }
 }
 export default useEditStep

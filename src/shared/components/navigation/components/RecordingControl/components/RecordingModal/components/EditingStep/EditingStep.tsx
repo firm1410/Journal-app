@@ -1,33 +1,46 @@
 import { colors } from "@/constants/theme"
 import ChevronRightIcon from "@/src/shared/components/icons/ChevronRightIcon"
-import { StyleSheet, Pressable, View } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { Dispatch, SetStateAction } from "react"
+import { Pressable, StyleSheet, View } from "react-native"
+import { RecordingState } from "../../../../models/RecordingInterface"
 import TranscriptionField from "../TranscriptionField"
 import DateTimePicker from "./components/DateTimePicker"
 import useEditStep from "./controllers/useEditStep"
 
 type Props = {
-  transcribe: string
-  initialDateTime: Date
   center: { x: number; y: number }
   buttonSize: number
-  onNext: (text: string, dateTime: Date) => void
+  transcribe: string
+  setTranscribe: Dispatch<SetStateAction<string>>
+  date: Date
+  setDate: Dispatch<SetStateAction<Date>>
+  setRecordingState: Dispatch<SetStateAction<RecordingState>>
 }
 
-const EditingStep = ({ transcribe, initialDateTime, center, buttonSize, onNext }: Props) => {
-  const { editText, setEditText, dateTime, setDateTime } = useEditStep({ transcribe, initialDateTime })
-  const { top } = useSafeAreaInsets()
-
+const EditingStep = ({
+  transcribe,
+  setTranscribe,
+  setRecordingState,
+  date,
+  setDate,
+  center,
+  buttonSize,
+}: Props) => {
+  const { onNext } = useEditStep({
+    transcribe,
+    date,
+    setRecordingState,
+  })
   return (
     <>
-      <View style={[styles.content, { paddingTop: top + 16 }]}>
-        <DateTimePicker dateTime={dateTime} setDateTime={setDateTime} />
-        <TranscriptionField value={editText} onChangeText={setEditText} />
+      <View style={[styles.content]}>
+        <DateTimePicker dateTime={date} setDateTime={setDate} />
+        <TranscriptionField value={transcribe} onChangeText={setTranscribe} />
       </View>
       <Pressable
         accessibilityLabel="Next: Select card"
         accessibilityRole="button"
-        onPress={() => onNext(editText, dateTime)}
+        onPress={() => onNext()}
         style={({ pressed }) => [
           styles.nextButton,
           {
@@ -62,6 +75,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 24,
+    paddingTop: 16,
     gap: 24,
     alignItems: "flex-start",
     flex: 1,

@@ -7,7 +7,9 @@ const useNavigationItemController = (route: LinkProps["href"]) => {
   const currentPath = pathname === "" ? "/" : pathname
 
   return {
-    isActive: currentPath === routePath,
+    isActive:
+      currentPath === routePath ||
+      (routePath === "/library" && currentPath === "/budget"),
   }
 }
 

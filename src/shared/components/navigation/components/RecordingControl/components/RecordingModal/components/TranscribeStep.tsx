@@ -3,7 +3,6 @@ import StopIcon from "@/src/shared/components/icons/StopIcon"
 import { Dispatch, SetStateAction } from "react"
 import type { Animated as AnimatedType } from "react-native"
 import { Animated, Pressable, StyleSheet } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { RecordingState } from "../../../models/RecordingInterface"
 import TranscriptionField from "./TranscriptionField"
 
@@ -22,13 +21,9 @@ const TranscribeStep = ({
   transcribe,
   setRecordingState,
 }: Props) => {
-  const { top } = useSafeAreaInsets()
-
   return (
     <>
-      <Animated.View
-        style={[styles.content, { opacity: progress, paddingTop: top + 16 }]}
-      >
+      <Animated.View style={[styles.content, { opacity: progress }]}>
         <TranscriptionField value={transcribe} />
       </Animated.View>
       <Pressable
@@ -60,6 +55,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 24,
     paddingHorizontal: 24,
+    paddingTop: 16,
   },
   stopButton: {
     alignItems: "center",

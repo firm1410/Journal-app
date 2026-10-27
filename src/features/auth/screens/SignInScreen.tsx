@@ -1,3 +1,6 @@
+import { usePreview } from "@/src/features/demo/PreviewContext"
+import { Button } from "@/src/features/demo/ui"
+import { router } from "expo-router"
 import { StyleSheet, View } from "react-native"
 
 import { colors } from "@/constants/theme"
@@ -6,10 +9,20 @@ import useSignInController from "../controllers/useSignInController"
 
 const SignInScreen = () => {
   const controller = useSignInController()
+  const preview = usePreview()
 
   return (
     <View style={styles.screen}>
       <SignInForm {...controller} />
+      <View style={{ marginTop: 28 }}>
+        <Button
+          label="Explore with sample data"
+          onPress={() => {
+            preview.enter()
+            router.replace("/")
+          }}
+        />
+      </View>
     </View>
   )
 }

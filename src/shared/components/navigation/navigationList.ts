@@ -17,13 +17,13 @@ const navigationList: NavigationItemModel[] = [
     Icon: JournalIcon,
   },
   {
-    name: "To do",
-    route: "/todo",
+    name: "Plan",
+    route: "/plan",
     Icon: TodoIcon,
   },
   {
-    name: "Tracker",
-    route: "/tracker",
+    name: "Library",
+    route: "/library",
     Icon: TrackerIcon,
   },
 ]
